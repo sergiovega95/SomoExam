@@ -6,7 +6,7 @@ using System.Text;
 
 namespace WeatherApiDomain.Models
 {
-    public class WeatherEntity : WeatherAPI.Standard.Models.CurrentJsonResponse,ITableEntity
+    public class WeatherEntity : ITableEntity
     {
         public string PartitionKey { get; set; }
 
@@ -15,5 +15,8 @@ namespace WeatherApiDomain.Models
         public DateTimeOffset? Timestamp { get; set; }
         
         public ETag ETag { get; set; }
+
+        public string Data { get; set; }       
+                
     }
 }

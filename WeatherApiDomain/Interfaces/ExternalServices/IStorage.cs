@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Azure.Data.Tables;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,8 +9,8 @@ namespace WeatherApiDomain.Interfaces.ExternalServices
 {
     public interface IStorage
     {
-        Task<WeatherEntity> GetEntityAsync(string partitionKey, string rowKey);
-        Task<WeatherEntity> InsertEntityAsync(WeatherEntity entity);
-        Task DeleteEntityAsync(string partitionKey, string rowKey);
+
+        Task<object> InsertEntityAsync(string tableName, ITableEntity entity);
+        Task<T> GetAsync<T>(string tableName, string partitionKey, string rowKey) where T : class, ITableEntity, new();
     }
 }

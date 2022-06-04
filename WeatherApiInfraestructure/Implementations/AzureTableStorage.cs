@@ -1,50 +1,41 @@
-﻿using Azure.Data.Tables;
+﻿using Azure;
+using Azure.Data.Tables;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using WeatherApiDomain.Interfaces.ExternalServices;
-using WeatherApiDomain.Models;
 
 namespace WeatherApiInfraestructure.Implementations
 {
     public class AzureTableStorage : IStorage
-    {
-        private const string TableName = "Item";
-        private readonly IConfiguration _configuration;
+    {        
+       
+        private readonly TableServiceClient _client;        
 
-        public AzureTableStorage(IConfiguration configuration)
+        public AzureTableStorage(IConfiguration configuration, TableServiceClient client)       
         {
-            _configuration = configuration;
+            _client = client;               
         }
 
-        private async Task<TableClient> GetTableClient()
+        private async Task<TableClient> GetTableClient(string tableName)
         {
-            var serviceClient = new TableServiceClient(_configuration["ApplicationConfig:AzureStorage:StorageConnectionString"]);
-            var tableClient = serviceClient.GetTableClient(TableName);
+            var tableClient = _client.GetTableClient(tableName);
             await tableClient.CreateIfNotExistsAsync();
             return tableClient;
-        }
+        }             
+                
 
-
-        public async Task DeleteEntityAsync(string partitionKey, string rowKey)
+        public async Task<object> InsertEntityAsync (string tableName, ITableEntity entity)
         {
-            var tableClient = await GetTableClient();
-            await tableClient.DeleteEntityAsync(partitionKey, rowKey);
-        }
-
-        public async Task<WeatherEntity> GetEntityAsync(string partitionKey, string rowKey) 
-        {
-            var tableClient = await GetTableClient();
-            return await tableClient.GetEntityAsync<WeatherEntity>( partitionKey,  rowKey);
-        }
-
-        public async Task<WeatherEntity> InsertEntityAsync (WeatherEntity entity)
-        {
-            var tableClient = await GetTableClient();
-            await tableClient.UpsertEntityAsync(entity);
+            var tableClient = await GetTableClient(tableName);     
+            await tableClient.AddEntityAsync(entity);
             return entity;
+        }        
+
+
+        public async Task <T> GetAsync<T> (string tableName, string partitionKey, string rowKey) where T : class, ITableEntity, new()
+        {
+            var tableClient = await GetTableClient(tableName);
+            return await tableClient.GetEntityAsync<T>(partitionKey, rowKey);
         }
     }
 }

@@ -1,20 +1,15 @@
+using Azure.Data.Tables;
+using Azure.Messaging.ServiceBus;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using WeatherApiDomain.Implementations.Weather;
 using WeatherApiDomain.Interfaces.ExternalServices;
 using WeatherApiDomain.Interfaces.Weather;
-using WeatherApiDomain.Shared.AppConfig;
 using WeatherApiInfraestructure.Implementations;
 
 namespace WebApplication1
@@ -23,13 +18,11 @@ namespace WebApplication1
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            Configuration = configuration;          
 
             var config = new ConfigurationBuilder()
             .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json",true)
-            .Build();
-
-            config.GetSection("ApplicationConfig").Get<ApplicationConfig>();
+            .Build();                     
       
         }
 
@@ -42,7 +35,15 @@ namespace WebApplication1
             services.AddControllers();
             services.AddScoped<IConsumerServices, ConsumerServices>();
             services.AddScoped<IWeatherInfo,WeatherInfo>();
+            services.AddSingleton((s) =>
+            {
+                return new TableServiceClient(Configuration["ApplicationConfig:AzureTableStorage:StorageConnectionString"]);
+            });
             services.AddScoped<IStorage, AzureTableStorage>();
+            services.AddSingleton((s) => 
+            {
+                return new ServiceBusClient(Configuration["ApplicationConfig:AzureServiceBus:ConnectionString"], new ServiceBusClientOptions() { TransportType = ServiceBusTransportType.AmqpWebSockets });
+            });
             services.AddScoped<IMessageBroker, AzureServiceBus>();
             services.AddSwaggerGen(options =>
             {
@@ -50,14 +51,13 @@ namespace WebApplication1
 
                 options.SwaggerDoc(groupName, new OpenApiInfo
                 {
-                    Title = $"Foo {groupName}",
+                    Title = $"Somo Exam Weather Api",
                     Version = groupName,
-                    Description = "Foo API",
+                    Description = "Weather api that return current weather of a city, and storage retrived data on external storage service",
                     Contact = new OpenApiContact
                     {
-                        Name = "Foo Company",
-                        Email = string.Empty,
-                        Url = new Uri("https://foo.com/"),
+                        Name = "Sergio andres vega vasquez",
+                        Email = "Sergiovega9511@gmail.com"                       
                     }
                 });
             });
@@ -76,9 +76,8 @@ namespace WebApplication1
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Foo API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Somo Exam Weather Api");
             });
-
 
             app.UseRouting();
 

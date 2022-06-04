@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using WeatherApiDomain.Exceptions;
 using WeatherApiDomain.Interfaces.Weather;
@@ -25,8 +23,7 @@ namespace WebApplication1.Controllers
 
         [HttpGet]
         public async Task<IActionResult> GetRealtimeWeatherAsync(string cityName)
-        {
-          
+        {          
             try
             {
                 if (string.IsNullOrEmpty(cityName))
@@ -40,7 +37,11 @@ namespace WebApplication1.Controllers
             catch (ExternalServiceException ex)
             {
                 return StatusCode(ex.statusCode, ex.Message);
-            }          
+            }
+            catch (Exception e)
+            {
+               return StatusCode(500,e.Message);
+            }
                         
         }
     }

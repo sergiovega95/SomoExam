@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31019.35
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherApi", "WeatherApi\WeatherApi.csproj", "{21227675-AF85-49E7-A0DF-DB6398F0A515}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeatherApi", "WeatherApi\WeatherApi.csproj", "{21227675-AF85-49E7-A0DF-DB6398F0A515}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherApiDomain", "WeatherApiDomain\WeatherApiDomain.csproj", "{13E3A19B-167C-4FF4-9FEB-96676BC80186}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeatherApiDomain", "WeatherApiDomain\WeatherApiDomain.csproj", "{13E3A19B-167C-4FF4-9FEB-96676BC80186}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherApiInfraestructure", "WeatherApiInfraestructure\WeatherApiInfraestructure.csproj", "{225CEF3C-B203-4D53-AC11-589A599E9D29}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeatherApiInfraestructure", "WeatherApiInfraestructure\WeatherApiInfraestructure.csproj", "{225CEF3C-B203-4D53-AC11-589A599E9D29}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherApiTest", "WeatherApiTest\WeatherApiTest.csproj", "{8FC6A390-8B9D-4C7C-AA32-7396CC1C2712}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{225CEF3C-B203-4D53-AC11-589A599E9D29}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{225CEF3C-B203-4D53-AC11-589A599E9D29}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{225CEF3C-B203-4D53-AC11-589A599E9D29}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FC6A390-8B9D-4C7C-AA32-7396CC1C2712}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FC6A390-8B9D-4C7C-AA32-7396CC1C2712}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FC6A390-8B9D-4C7C-AA32-7396CC1C2712}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FC6A390-8B9D-4C7C-AA32-7396CC1C2712}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
