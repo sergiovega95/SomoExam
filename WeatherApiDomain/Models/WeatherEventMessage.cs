@@ -9,5 +9,6 @@ namespace WeatherApiDomain.Models
         public string Description { get; set; }
         public DateTime PublishDate { get; set; }
         public WeatherAPI.Standard.Models.CurrentJsonResponse CurrentWeather { get; set; }
+        public string EventType { get; set; }
     }
 }

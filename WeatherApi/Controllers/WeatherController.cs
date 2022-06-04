@@ -21,7 +21,7 @@ namespace WebApplication1.Controllers
             _weatherInfo = weatherInfo;
         }
 
-        [HttpGet]
+        [HttpGet("{cityName}")]
         public async Task<IActionResult> GetRealtimeWeatherAsync(string cityName)
         {          
             try

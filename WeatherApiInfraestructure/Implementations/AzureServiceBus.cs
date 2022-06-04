@@ -20,6 +20,8 @@ namespace WeatherApiInfraestructure.Implementations
             _client = serviceBusClient;            
         }
 
+        //TODO: With more time and budget, use topics and suscriptions on azure service bus for support many consumers, in this case i used queue of azure service bus
+
         public async Task PublishMessage(string queueName, ServiceBusMessage message)
         {
             try

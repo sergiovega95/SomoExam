@@ -7,8 +7,10 @@ using WeatherApiDomain.Interfaces.ExternalServices;
 namespace WeatherApiInfraestructure.Implementations
 {
     public class AzureTableStorage : IStorage
-    {        
-       
+    {
+
+        //TODO: if azure tableStorage is not enough for high demand scenario , use azure cosmos db implementation (more expensive than tablestorage)
+
         private readonly TableServiceClient _client;        
 
         public AzureTableStorage(IConfiguration configuration, TableServiceClient client)       

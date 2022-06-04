@@ -34,8 +34,9 @@ namespace WeatherApiDomain.Implementations.Weather
             var response = await GetCurrentWeather(cityName);
             await SaveCurrentWeather(response);
 
-            if (true)
+            if (response.Current.Condition.Text.Contains("rain"))
             {
+                //publis event on message broker when current weather includes rain
                 await PublishEvent(response);
             }
 
@@ -97,7 +98,7 @@ namespace WeatherApiDomain.Implementations.Weather
         /// <returns></returns>
         private async Task PublishEvent(WeatherAPI.Standard.Models.CurrentJsonResponse data)
         {
-            WeatherEventMessage weatherEvent = new WeatherEventMessage() { CurrentWeather = data, PublishDate = DateTime.UtcNow, Description = data.Current.Condition.Text};
+            WeatherEventMessage weatherEvent = new WeatherEventMessage() { CurrentWeather = data, PublishDate = DateTime.UtcNow, Description = data.Current.Condition.Text, EventType= "rainy day" };
             ServiceBusMessage serviceBusMessage = new ServiceBusMessage(JsonConvert.SerializeObject(weatherEvent));           
             await _messageBroker.PublishMessage(_appConfig["ApplicationConfig:AzureServiceBus:WeatherQueue"], serviceBusMessage);
         }
