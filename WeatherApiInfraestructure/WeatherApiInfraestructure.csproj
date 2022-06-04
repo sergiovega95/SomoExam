@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Azure.Data.Tables" Version="12.5.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WeatherApiDomain\WeatherApiDomain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="WeatherAPI.Standard">
+      <HintPath>..\ExternalDlls\WeatherAPI.Standard.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
