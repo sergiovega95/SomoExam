@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using WeatherAPI.Standard.Utilities;
+using WeatherApiDomain.Dtos;
 using WeatherApiDomain.Interfaces.ExternalServices;
 using WeatherApiDomain.Interfaces.Weather;
 using WeatherApiDomain.Models;
@@ -29,7 +30,7 @@ namespace WeatherApiDomain.Implementations.Weather
           
         }
 
-        public async Task<WeatherAPI.Standard.Models.CurrentJsonResponse> GetAndSaveCurrentWeatherByCity(string cityName)
+        public async Task<ResponseWeather<WeatherAPI.Standard.Models.CurrentJsonResponse>> GetAndSaveCurrentWeatherByCity(string cityName)
         {
             var response = await GetCurrentWeather(cityName);
             await SaveCurrentWeather(response);
@@ -40,7 +41,7 @@ namespace WeatherApiDomain.Implementations.Weather
                 await PublishEvent(response);
             }
 
-            return response;
+            return new ResponseWeather<WeatherAPI.Standard.Models.CurrentJsonResponse>() { Data= response , Detail="Data Saved on external service sucessfully", IsSucessFull=true};
         }
 
         /// <summary>

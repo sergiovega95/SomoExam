@@ -11,6 +11,7 @@ using WeatherApiDomain.Implementations.Weather;
 using WeatherApiDomain.Interfaces.ExternalServices;
 using WeatherApiDomain.Interfaces.Weather;
 using WeatherApiInfraestructure.Implementations;
+using System.Reflection;
 
 namespace WebApplication1
 {
@@ -44,11 +45,11 @@ namespace WebApplication1
             {
                 return new ServiceBusClient(Configuration["ApplicationConfig:AzureServiceBus:ConnectionString"], new ServiceBusClientOptions() { TransportType = ServiceBusTransportType.AmqpWebSockets });
             });
-            services.AddScoped<IMessageBroker, AzureServiceBus>();
+            services.AddScoped<IMessageBroker, AzureServiceBus>();                       
+
             services.AddSwaggerGen(options =>
             {
                 var groupName = "v1";
-
                 options.SwaggerDoc(groupName, new OpenApiInfo
                 {
                     Title = $"Somo Exam Weather Api",
@@ -59,7 +60,9 @@ namespace WebApplication1
                         Name = "Sergio andres vega vasquez",
                         Email = "Sergiovega9511@gmail.com"                       
                     }
-                });
+                    
+                });               
+                
             });
         }
 

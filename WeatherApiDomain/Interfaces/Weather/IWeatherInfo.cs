@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using WeatherApiDomain.Dtos;
 
 namespace WeatherApiDomain.Interfaces.Weather
 {
     public interface IWeatherInfo
     {
-        Task<WeatherAPI.Standard.Models.CurrentJsonResponse> GetAndSaveCurrentWeatherByCity(string cityName);
+        Task<ResponseWeather<WeatherAPI.Standard.Models.CurrentJsonResponse>> GetAndSaveCurrentWeatherByCity(string cityName);
     }
 }

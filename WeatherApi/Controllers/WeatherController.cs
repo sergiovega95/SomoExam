@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
+using WeatherApiDomain.Dtos;
 using WeatherApiDomain.Exceptions;
 using WeatherApiDomain.Interfaces.Weather;
 
@@ -21,6 +22,13 @@ namespace WebApplication1.Controllers
             _weatherInfo = weatherInfo;
         }
 
+
+
+        /// <summary>
+        /// Get Current weather of a city
+        /// </summary>
+        /// <param name="cityName">city name of the city you want to know current weather Example:London</param>
+        /// <returns></returns>
         [HttpGet("{cityName}")]
         public async Task<IActionResult> GetRealtimeWeatherAsync(string cityName)
         {          
@@ -36,7 +44,7 @@ namespace WebApplication1.Controllers
             }
             catch (ExternalServiceException ex)
             {
-                return StatusCode(ex.statusCode, ex.Message);
+                return StatusCode(ex.statusCode, new ResponseWeather<object>(){Error=ex.Message,Detail="ExternalService Error"});
             }
             catch (Exception e)
             {
