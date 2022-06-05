@@ -48,8 +48,8 @@ namespace WebApplication1.Controllers
             }
             catch (ExternalServiceException ex)
             {
-                _logger.LogError(ex.Message, ex);
-                return StatusCode(ex.statusCode, new ResponseWeather<object>(){Error=ex.Message,Detail="ExternalService Error"});
+                _logger.LogError("Error on external service", ex);
+                return StatusCode(ex.statusCode, new ResponseWeather<object>(){Error=ex.Message,Detail="ExternalService Error",Data=null});
             }
             catch (Exception e)
             {
