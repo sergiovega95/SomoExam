@@ -19,6 +19,8 @@ namespace WeatherApiInfraestructure.Implementations
             _clientFactory = clientFactory;
         }
 
+        //TODO: With more time you can implement a named client for httpclient factory
+
         public async Task<T> Get<T>(string url, Dictionary<string, string> headers)
         {
             var request = new HttpRequestMessage(HttpMethod.Get,url);

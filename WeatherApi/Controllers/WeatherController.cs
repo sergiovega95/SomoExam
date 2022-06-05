@@ -36,7 +36,7 @@ namespace WebApplication1.Controllers
             {
                 if (string.IsNullOrEmpty(cityName))
                 {
-                    return StatusCode(400, "cityName is required");
+                   return StatusCode(400, "cityName is required");
                 }
 
                 var response = await _weatherInfo.GetAndSaveCurrentWeatherByCity(cityName);
@@ -44,11 +44,13 @@ namespace WebApplication1.Controllers
             }
             catch (ExternalServiceException ex)
             {
+                _logger.LogError(ex.Message, ex);
                 return StatusCode(ex.statusCode, new ResponseWeather<object>(){Error=ex.Message,Detail="ExternalService Error"});
             }
             catch (Exception e)
             {
-               return StatusCode(500,e.Message);
+                _logger.LogError(e.Message, e);
+                return StatusCode(500,e.Message);
             }
                         
         }

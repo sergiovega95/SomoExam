@@ -1,5 +1,6 @@
 ﻿using Azure.Messaging.ServiceBus;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -20,13 +21,15 @@ namespace WeatherApiDomain.Implementations.Weather
         private readonly IConfiguration _appConfig;
         private readonly IStorage _storage;
         private readonly IMessageBroker _messageBroker;
+        private readonly ILogger<WeatherInfo> _logger;
 
-        public WeatherInfo(IConsumerServices services, IConfiguration appConfig, IStorage storage, IMessageBroker messageBroker)
+        public WeatherInfo(IConsumerServices services, IConfiguration appConfig, IStorage storage, IMessageBroker messageBroker, ILogger<WeatherInfo> logger)
         {
             _services = services;
             _appConfig = appConfig;
             _storage = storage;
-            _messageBroker = messageBroker;               
+            _messageBroker = messageBroker;
+            _logger = logger;
           
         }
 
@@ -74,7 +77,9 @@ namespace WeatherApiDomain.Implementations.Weather
                     { "accept", "application/json" }
             };
 
-            return await _services.Get<WeatherAPI.Standard.Models.CurrentJsonResponse>(queryUrl, headers);
+            var response =  await _services.Get<WeatherAPI.Standard.Models.CurrentJsonResponse>(queryUrl, headers);
+            _logger.LogTrace($"Data retrived from weather api for {response.Location.Name}");
+            return response;
         }
 
         /// <summary>
@@ -90,7 +95,8 @@ namespace WeatherApiDomain.Implementations.Weather
                 RowKey = Guid.NewGuid().ToString(),
                 PartitionKey = data.Location.Name
             };
-            await _storage.InsertEntityAsync(_appConfig["ApplicationConfig:AzureTableStorage:TableName"],entity);
+            await _storage.InsertEntityAsync(_appConfig.GetSection("ApplicationConfig:AzureTableStorage:TableName").Value,entity);
+            _logger.LogTrace($"Data about current weather from {data.Location.Name} saved on external service at {DateTime.UtcNow}");
         }         
 
         /// <summary>
@@ -101,7 +107,8 @@ namespace WeatherApiDomain.Implementations.Weather
         {
             WeatherEventMessage weatherEvent = new WeatherEventMessage() { CurrentWeather = data, PublishDate = DateTime.UtcNow, Description = data.Current.Condition.Text, EventType= "rainy day" };
             ServiceBusMessage serviceBusMessage = new ServiceBusMessage(JsonConvert.SerializeObject(weatherEvent));           
-            await _messageBroker.PublishMessage(_appConfig["ApplicationConfig:AzureServiceBus:WeatherQueue"], serviceBusMessage);
+            await _messageBroker.PublishMessage(_appConfig.GetSection("ApplicationConfig:AzureServiceBus:WeatherQueue").Value, serviceBusMessage);
+            _logger.LogTrace($"Event published to {data.Location.Name} at {DateTime.UtcNow}");
         }
 
     }
