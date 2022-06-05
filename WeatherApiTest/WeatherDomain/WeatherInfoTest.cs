@@ -29,19 +29,19 @@ namespace WeatherApiTest.WeatherDomain
             _weatherInfo = new WeatherInfo(_moqServices.Object, _moqAppConfig.Object, _moqStorage.Object, _moqMessageBroker.Object);
         }
 
-        [Fact]
-        public async Task GetAndSaveCurrentWeatherByCity_Successfull_Test()
-        {
-            //assing
-            _moqServices.Setup(s => s.Get<WeatherAPI.Standard.Models.CurrentJsonResponse>(It.IsAny<string>(), It.IsAny<Dictionary<string, string>>()))
-                         .ReturnsAsync(new WeatherAPI.Standard.Models.CurrentJsonResponse(){ Current= new WeatherAPI.Standard.Models.Current(), Location= new WeatherAPI.Standard.Models.Location() });
+        //[Fact]
+        //public async Task GetAndSaveCurrentWeatherByCity_Successfull_Test()
+        //{
+        //    //assing
+        //    _moqServices.Setup(s => s.Get<WeatherAPI.Standard.Models.CurrentJsonResponse>(It.IsAny<string>(), It.IsAny<Dictionary<string, string>>()))
+        //                 .ReturnsAsync(new WeatherAPI.Standard.Models.CurrentJsonResponse(){ Current= new WeatherAPI.Standard.Models.Current(), Location= new WeatherAPI.Standard.Models.Location() });
 
-            _moqStorage.Setup(s => s.InsertEntityAsync(It.IsAny<string>(), It.IsAny<ITableEntity>())).Returns(Task.CompletedTask);
-            _moqMessageBroker.Setup(s => s.PublishMessage(It.IsAny<string>(), It.IsAny<ServiceBusMessage>())).Returns(Task.CompletedTask);           
+        //    _moqStorage.Setup(s => s.InsertEntityAsync(It.IsAny<string>(), It.IsAny<ITableEntity>())).Returns(Task.CompletedTask);
+        //    _moqMessageBroker.Setup(s => s.PublishMessage(It.IsAny<string>(), It.IsAny<ServiceBusMessage>())).Returns(Task.CompletedTask);           
             
-            //act                       
+        //    //act                       
 
-            //assert
-        } 
+        //    //assert
+        //} 
     }
 }
