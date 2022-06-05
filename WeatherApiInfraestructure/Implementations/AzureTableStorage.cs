@@ -26,11 +26,10 @@ namespace WeatherApiInfraestructure.Implementations
         }             
                 
 
-        public async Task<object> InsertEntityAsync (string tableName, ITableEntity entity)
+        public async Task InsertEntityAsync (string tableName, ITableEntity entity)
         {
             var tableClient = await GetTableClient(tableName);     
-            await tableClient.AddEntityAsync(entity);
-            return entity;
+            await tableClient.AddEntityAsync(entity);            
         }        
 
 

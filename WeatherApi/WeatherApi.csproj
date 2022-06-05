@@ -1,11 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UserSecretsId>ec056ff6-6d99-45c5-921f-734637f555dd</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-    <DockerfileContext>.</DockerfileContext>
-  <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <DockerfileContext>.</DockerfileContext>  
   </PropertyGroup>
 
   <ItemGroup>

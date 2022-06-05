@@ -10,7 +10,7 @@ namespace WeatherApiDomain.Interfaces.ExternalServices
     public interface IStorage
     {
 
-        Task<object> InsertEntityAsync(string tableName, ITableEntity entity);
+        Task InsertEntityAsync(string tableName, ITableEntity entity);
         Task<T> GetAsync<T>(string tableName, string partitionKey, string rowKey) where T : class, ITableEntity, new();
     }
 }
