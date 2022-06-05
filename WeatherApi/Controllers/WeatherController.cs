@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Swashbuckle.AspNetCore.Annotations;
 using System;
+using System.Net;
 using System.Threading.Tasks;
 using WeatherApiDomain.Dtos;
 using WeatherApiDomain.Exceptions;
@@ -29,6 +31,8 @@ namespace WebApplication1.Controllers
         /// </summary>
         /// <param name="cityName">city name of the city you want to know current weather Example:London</param>
         /// <returns></returns>
+        [SwaggerResponse(200, "Current Weather of the city", typeof(ResponseWeather<WeatherAPI.Standard.Models.CurrentJsonResponse>))]
+        [SwaggerResponse(500,"Internal Server Error", Type = typeof(string))]
         [HttpGet("{cityName}")]
         public async Task<IActionResult> GetRealtimeWeatherAsync(string cityName)
         {          
